@@ -40,10 +40,10 @@ jobs:
         project: [TotkTagEditor.Desktop]
         config:
           - name: Windows (x64)
-            os: windows-latest
+            os: ubuntu-latest
             runtime: win-x64
           - name: Windows (arm64)
-            os: windows-latest
+            os: ubuntu-latest
             runtime: win-arm64
           - name: Linux (x64)
             os: ubuntu-latest
@@ -52,10 +52,10 @@ jobs:
             os: ubuntu-latest
             runtime: linux-arm64
           - name: MacOS (x64)
-            os: macos-latest
+            os: ubuntu-latest
             runtime: osx-x64
           - name: MacOS (arm64)
-            os: macos-latest
+            os: ubuntu-latest
             runtime: osx-arm64
 
     steps:

@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34916.146
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TotkTagEditor", "TotkTagEditor\TotkTagEditor.csproj", "{9136AE87-D6C6-4B61-88AB-CEF7E7B66DEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotkTagEditor.Core", "TotkTagEditor.Core\TotkTagEditor.Core.csproj", "{D63CF94D-8850-49AC-B1B2-80FC1EBA2FBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{2A2BDCAC-1C9B-43F0-A18C-8E8E525A1187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotkTagEditor.Desktop", "Clients\TotkTagEditor.Desktop\TotkTagEditor.Desktop.csproj", "{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotkTagEditor.Browser", "Clients\TotkTagEditor.Browser\TotkTagEditor.Browser.csproj", "{0DF889F7-785D-4F47-BBFE-D88D0C37639D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9136AE87-D6C6-4B61-88AB-CEF7E7B66DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9136AE87-D6C6-4B61-88AB-CEF7E7B66DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9136AE87-D6C6-4B61-88AB-CEF7E7B66DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9136AE87-D6C6-4B61-88AB-CEF7E7B66DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A77CD5-03DC-4D51-BB1D-C2EDF712F4DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A77CD5-03DC-4D51-BB1D-C2EDF712F4DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A77CD5-03DC-4D51-BB1D-C2EDF712F4DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A77CD5-03DC-4D51-BB1D-C2EDF712F4DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD2DDF12-97CA-4C72-B29E-A9B9F820F37B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD2DDF12-97CA-4C72-B29E-A9B9F820F37B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD2DDF12-97CA-4C72-B29E-A9B9F820F37B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD2DDF12-97CA-4C72-B29E-A9B9F820F37B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D63CF94D-8850-49AC-B1B2-80FC1EBA2FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D63CF94D-8850-49AC-B1B2-80FC1EBA2FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D63CF94D-8850-49AC-B1B2-80FC1EBA2FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D63CF94D-8850-49AC-B1B2-80FC1EBA2FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DF889F7-785D-4F47-BBFE-D88D0C37639D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DF889F7-785D-4F47-BBFE-D88D0C37639D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DF889F7-785D-4F47-BBFE-D88D0C37639D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DF889F7-785D-4F47-BBFE-D88D0C37639D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4130ADF2-BDC0-4D96-990B-E4987A76DF5D}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8A90350-DEBE-4591-A0F8-DC2AFB61DE98} = {2A2BDCAC-1C9B-43F0-A18C-8E8E525A1187}
+		{0DF889F7-785D-4F47-BBFE-D88D0C37639D} = {2A2BDCAC-1C9B-43F0-A18C-8E8E525A1187}
+	EndGlobalSection
+EndGlobal

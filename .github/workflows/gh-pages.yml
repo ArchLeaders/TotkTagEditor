@@ -1,0 +1,67 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  env:
+    project: Clients/TotkTagEditor.Browser
+    project_name: TotkTagEditor.Browser
+
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install wasm-tools
+        run: dotnet workload install wasm-tools
+
+      - name: Install DotNetCompress
+        run: dotnet tool install --global DotNetCompress --version 3.0.0 --no-cache
+
+      - name: Publish .NET Project
+        run: dotnet publish src/${{env.project}}/${{env.project_name}}.csproj -c Release -o release --nologo
+
+      - name: Brotli Compress Output (dll)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/managed -p '*.dll' --format br --threads 4
+
+      - name: Brotli Compress Output (js)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/ -p '*.js' --format br --threads 4
+
+      - name: Brotli Compress Output (wasm)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/ -p '*.wasm' --format br --threads 4
+
+      - name: GZip Compress Output (dll)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/managed -p '*.dll' --format gz --threads 4
+
+      - name: GZip Compress Output (js)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/ -p '*.js' --format gz --threads 4
+
+      - name: GZip Compress Output (wasm)
+        run: DotNetCompress -d src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/ -p '*.wasm' --format gz --threads 4
+
+      - name: Change base-tag in index.html from / to TotkTagEditor
+        run: sed -i 's/<base href="\/" \/>/<base href="\/TotkTagEditor\/" \/>/g' src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/index.html
+
+      - name: copy index.html to 404.html
+        run: cp src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/index.html src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/404.html
+
+      - name: Add .nojekyll file
+        run: touch src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle/.nojekyll
+
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          BRANCH: gh-pages
+          FOLDER: src/${{env.project}}/bin/Release/net8.0/browser-wasm/AppBundle

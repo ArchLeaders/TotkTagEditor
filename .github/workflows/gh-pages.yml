@@ -5,11 +5,11 @@ on:
     tags:
       - "v*"
 
-jobs:
-  env:
-    project: Clients/TotkTagEditor.Browser
-    project_name: TotkTagEditor.Browser
+env:
+  project: Clients/TotkTagEditor.Browser
+  project_name: TotkTagEditor.Browser
 
+jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     permissions:

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AvaloniaResource Include="..\..\resources\Icon.ico" Link="Assets\icon.ico" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
 
@@ -19,6 +20,8 @@
 
     <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+    <PackageReference Include="FluentAvaloniaUI" Version="2.0.5" />
+    <PackageReference Include="FluentIcons.Avalonia.Fluent" Version="1.1.240" />
   </ItemGroup>
 
   <ItemGroup>

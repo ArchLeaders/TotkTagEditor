@@ -1,10 +1,9 @@
-<Application xmlns="https://github.com/avaloniaui"
+<Application x:Class="TotkTagEditor.App"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="TotkTagEditor.App"
+             xmlns:sty="using:FluentAvalonia.Styling"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
     <Application.Styles>
-        <FluentTheme />
+        <sty:FluentAvaloniaTheme />
     </Application.Styles>
 </Application>

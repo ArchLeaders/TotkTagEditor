@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Tkmm.BymlLibrary" Version="1.0.5" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="TotkCommon" Version="1.2.4" />
   </ItemGroup>
 
 </Project>

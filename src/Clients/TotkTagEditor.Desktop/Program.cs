@@ -1,6 +1,5 @@
-﻿using System;
-
-using Avalonia;
+﻿using Avalonia;
+using FluentIcons.Avalonia.Fluent;
 
 namespace TotkTagEditor.Desktop;
 
@@ -18,6 +17,7 @@ class Program
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
+            .UseSegoeMetrics()
             .LogToTrace();
 
 }

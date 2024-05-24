@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Browser;
+using FluentIcons.Avalonia.Fluent;
 using System.Runtime.Versioning;
 using TotkTagEditor;
 
@@ -12,5 +13,6 @@ internal partial class Program
 
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
+            .UseSegoeMetrics()
             .WithInterFont();
 }

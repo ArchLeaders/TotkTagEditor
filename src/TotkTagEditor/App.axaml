@@ -4,6 +4,6 @@
              xmlns:sty="using:FluentAvalonia.Styling"
              RequestedThemeVariant="Default">
     <Application.Styles>
-        <sty:FluentAvaloniaTheme />
+        <sty:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />
     </Application.Styles>
 </Application>

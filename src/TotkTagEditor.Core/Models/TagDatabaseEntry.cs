@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace TotkTagEditor.Core.Models;
 
-public partial class ActorTagInfo(string prefix, string name, string suffix) : ObservableObject
+public partial class TagDatabaseEntry(string prefix, string name, string suffix) : ObservableObject
 {
     [ObservableProperty]
     private string _prefix = prefix;
@@ -17,7 +17,7 @@ public partial class ActorTagInfo(string prefix, string name, string suffix) : O
     [ObservableProperty]
     private ObservableCollection<string> _tags = [];
 
-    public ActorTagInfo(string prefix, string name, string suffix, IEnumerable<string> tags) : this(prefix, name, suffix)
+    public TagDatabaseEntry(string prefix, string name, string suffix, IEnumerable<string> tags) : this(prefix, name, suffix)
     {
         _tags = [.. tags];
     }

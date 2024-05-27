@@ -23,6 +23,15 @@ public partial class TagDatabase : ObservableObject
     [ObservableProperty]
     private byte[] _rankTableCache;
 
+    public static TagDatabase FromFile(string path)
+    {
+        using FileStream fs = File.OpenRead(path);
+        int size = Convert.ToInt32(fs.Length);
+        using ArraySegmentOwner<byte> buffer = ArraySegmentOwner<byte>.Allocate(size);
+        fs.Read(buffer.Segment);
+        return new(buffer.Segment);
+    }
+
     public TagDatabase(ArraySegment<byte> data)
     {
         Byml byml;

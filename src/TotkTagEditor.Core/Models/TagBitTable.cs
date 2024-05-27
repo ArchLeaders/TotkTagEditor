@@ -11,8 +11,9 @@ public class TagBitTable : List<TagBitTableEntry>
         _entries = new TagBitTableEntry[pathCount];
 
         int bitOffset = 0;
+        byte current = reader.Read<byte>();
         for (int i = 0; i < pathCount; i++) {
-            _entries[i] = new TagBitTableEntry(ref reader, entrySize, ref bitOffset);
+            _entries[i] = new TagBitTableEntry(ref reader, entrySize, ref current, ref bitOffset);
         }
     }
 

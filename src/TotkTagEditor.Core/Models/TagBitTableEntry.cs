@@ -4,13 +4,30 @@ namespace TotkTagEditor.Core.Models;
 
 public class TagBitTableEntry
 {
-    public TagBitTableEntry(ref RevrsReader reader, int entrySize, ref int bitOffset)
-    {
+    private readonly bool[] _flags;
 
+    public TagBitTableEntry(ref RevrsReader reader, int entrySize, ref byte current, ref int bitOffset)
+    {
+        _flags = new bool[entrySize];
+
+        for (int i = 0; i < entrySize; i++) {
+            _flags[i] = ((current >> bitOffset) & 1) == 1;
+
+            switch (bitOffset) {
+                case 7:
+                    bitOffset = 0;
+                    current = reader.Read<byte>();
+                    break;
+                default: {
+                    bitOffset++;
+                    break;
+                }
+            }
+        }
     }
 
     public bool HasTag(int tagIndex)
     {
-        throw new NotImplementedException();
+        return _flags[tagIndex];
     }
 }

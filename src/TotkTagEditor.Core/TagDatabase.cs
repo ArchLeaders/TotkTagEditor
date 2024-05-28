@@ -12,7 +12,7 @@ namespace TotkTagEditor.Core;
 
 public partial class TagDatabase : ObservableObject
 {
-    private readonly int _dictionaryId = -1;
+    private readonly int _dictionaryId = 1;
 
     [ObservableProperty]
     private ObservableCollection<string> _tags;

@@ -9,15 +9,12 @@ public unsafe class BitTableWriter
     private readonly byte[] _result;
     private readonly IList<TagDatabaseEntry> _entries;
     private readonly FrozenDictionary<string, int> _tagLookup;
-    private readonly int _constantBitOffset;
-    private int _bitOffset = 0;
 
     public BitTableWriter(IList<string> tags, IList<TagDatabaseEntry> entries)
     {
         int size = (int)double.Ceiling(tags.Count * entries.Count / 8.0);
         _result = new byte[size];
         _entries = entries;
-        _constantBitOffset = tags.Count % 8;
 
         Dictionary<string, int> tagLookup = new(tags.Count);
         for (int i = 0; i < tags.Count; i++) {
@@ -37,9 +34,6 @@ public unsafe class BitTableWriter
             foreach (TagDatabaseEntry entry in _entries) {
                 FillEntry(entry.Tags, ref reader, current, ref bitOffset);
             }
-
-            // TODO: Remove this later
-            File.WriteAllBytes("D:\\bin\\.todo\\RSDB\\BitTable.bin", _result);
 
             return _result;
         }

@@ -4,9 +4,11 @@ using CommunityToolkit.HighPerformance.Buffers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Revrs;
 using Revrs.Buffers;
+using System.Buffers;
 using System.Collections.ObjectModel;
 using TotkCommon;
 using TotkTagEditor.Core.Models;
+using VYaml.Emitter;
 
 namespace TotkTagEditor.Core;
 
@@ -68,6 +70,39 @@ public partial class TagDatabase : ObservableObject
             TagDatabaseEntry entry = new(prefix, name, suffix, bitTable.GetTags(index, _tags));
             _entries.Add(entry);
         }
+    }
+
+    public void WriteYaml(IBufferWriter<byte> writer)
+    {
+        Utf8YamlEmitter emitter = new(writer);
+
+        emitter.BeginMapping();
+        emitter.WriteString("Entries");
+        emitter.BeginSequence();
+        foreach (TagDatabaseEntry entry in Entries) {
+            emitter.BeginMapping();
+            emitter.WriteString($"{entry.Prefix}|{entry.Name}|{entry.Suffix}");
+
+            emitter.BeginSequence();
+            foreach (string tag in entry.Tags) {
+                emitter.WriteString(tag);
+            }
+            emitter.EndSequence();
+            emitter.EndMapping();
+        }
+        emitter.EndSequence();
+
+        emitter.WriteString("Tags");
+        emitter.BeginSequence();
+        foreach (string tag in Tags) {
+            emitter.WriteString(tag);
+        }
+        emitter.EndSequence();
+
+        emitter.WriteString("RankTable");
+        emitter.Tag("!!binary");
+        emitter.WriteString(Convert.ToBase64String(RankTableCache));
+        emitter.EndMapping();
     }
 
     public void Save(Stream output)

@@ -1,13 +1,18 @@
-﻿using Avalonia;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using FluentAvalonia.UI.Controls;
-using TotkTagEditor.Views;
+using System.Collections.ObjectModel;
+using TotkTagEditor.Models;
 
 namespace TotkTagEditor.ViewModels;
 
 public partial class ShellViewModel : ObservableObject
 {
+    [ObservableProperty]
+    private ObservableCollection<Document> _documents = [];
+
+    [ObservableProperty]
+    private Document? _current;
+
     [RelayCommand]
     public async Task OpenFile()
     {
@@ -15,15 +20,14 @@ public partial class ShellViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public static async Task ShowSettings()
+    public void ShowSettings()
     {
-        TaskDialog taskDialog = new() {
-            Title = "Settings",
-            Buttons = [TaskDialogButton.OKButton],
-            XamlRoot = (Application.Current as App)?.GetRoot(),
-            Content = new SettingsView()
-        };
+        if (Documents.FirstOrDefault(x => x is SettingsViewModel) is SettingsViewModel target) {
+            Current = target;
+            return;
+        }
 
-        await taskDialog.ShowAsync();
+        Documents.Add(new SettingsViewModel());
+        Current = Documents[^1];
     }
 }

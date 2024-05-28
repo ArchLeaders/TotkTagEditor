@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:app="using:TotkTagEditor"
              xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             xmlns:models="using:TotkTagEditor.Models"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:vm="using:TotkTagEditor.ViewModels"
              d:DesignHeight="450"
@@ -15,7 +16,24 @@
         <vm:ShellViewModel />
     </UserControl.DataContext>
     <Grid RowDefinitions="*,25">
-        <ui:TabView Margin="0,15,0,0" AddTabButtonCommand="{Binding OpenFileCommand}" />
+        <ui:TabView HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    AddTabButtonCommand="{Binding OpenFileCommand}"
+                    CanDragTabs="True"
+                    CanReorderTabs="True"
+                    SelectedItem="{Binding Current}"
+                    TabItems="{Binding Documents}"
+                    TabWidthMode="SizeToContent">
+            <ui:TabView.TabItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:Document}">
+                    <ui:TabViewItem CloseRequested="TabItemCloseRequested"
+                                    Content="{Binding Content}"
+                                    Header="{Binding Title}"
+                                    IconSource="{Binding Icon}"
+                                    ToolTip.Tip="{Binding Name}" />
+                </DataTemplate>
+            </ui:TabView.TabItemTemplate>
+        </ui:TabView>
         <Border Grid.Row="1" Background="{DynamicResource SystemAccentColor}">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Margin="2"

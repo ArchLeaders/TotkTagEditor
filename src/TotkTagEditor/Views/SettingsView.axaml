@@ -8,10 +8,9 @@
              d:DesignWidth="800"
              x:DataType="vm:SettingsViewModel"
              mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:SettingsViewModel />
-    </UserControl.DataContext>
-    <TextBox Text="{Binding GamePath}"
-             UseFloatingWatermark="True"
-             Watermark="Game Path" />
+    <StackPanel Margin="15">
+        <TextBox Text="{Binding GamePath}"
+                 UseFloatingWatermark="True"
+                 Watermark="Game Path" />
+    </StackPanel>
 </UserControl>

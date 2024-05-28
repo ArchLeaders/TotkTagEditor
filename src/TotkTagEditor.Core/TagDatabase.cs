@@ -1,5 +1,6 @@
 ﻿using BymlLibrary;
 using BymlLibrary.Nodes.Containers;
+using CommunityToolkit.HighPerformance.Buffers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Revrs;
 using Revrs.Buffers;
@@ -11,11 +12,13 @@ namespace TotkTagEditor.Core;
 
 public partial class TagDatabase : ObservableObject
 {
+    private readonly int _dictionaryId = -1;
+
     [ObservableProperty]
     private ObservableCollection<string> _tags;
 
     [ObservableProperty]
-    private ObservableCollection<TagDatabaseEntry> _actors = [];
+    private ObservableCollection<TagDatabaseEntry> _entries = [];
 
     /// <summary>
     /// The raw RankTable bytes (unused in TotK)
@@ -39,7 +42,7 @@ public partial class TagDatabase : ObservableObject
         if (Zstd.IsCompressed(data)) {
             int size = Zstd.GetDecompressedSize(data);
             using ArraySegmentOwner<byte> decompressedBuffer = ArraySegmentOwner<byte>.Allocate(size);
-            Totk.Zstd.Decompress(data, decompressedBuffer.Segment);
+            Totk.Zstd.Decompress(data, decompressedBuffer.Segment, out _dictionaryId);
             byml = Byml.FromBinary(decompressedBuffer.Segment);
         }
         else {
@@ -63,7 +66,45 @@ public partial class TagDatabase : ObservableObject
 
             int index = (++i / 3) - 1;
             TagDatabaseEntry entry = new(prefix, name, suffix, bitTable.GetTags(index, _tags));
-            _actors.Add(entry);
+            _entries.Add(entry);
         }
+    }
+
+    public void Save(Stream output)
+    {
+        MemoryStream ms = new();
+        Byml root = new BymlMap() {
+            { "BitTable", CompileBitTable() },
+            { "PathList", CompilePaths() },
+            { "RankTable", RankTableCache },
+            { "TagList", new BymlArray(Tags.Select(x => (Byml)x)) }
+        };
+
+        root.WriteBinary(ms, Endianness.Little, version: 7);
+        ms.Seek(0, SeekOrigin.Begin);
+        byte[] raw = ms.ToArray();
+
+        using SpanOwner<byte> compressed = SpanOwner<byte>.Allocate(raw.Length);
+        Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
+
+        output.Write(compressed.Span);
+    }
+
+    private byte[] CompileBitTable()
+    {
+        BitTableWriter writer = new(Tags, Entries);
+        return writer.Compile();
+    }
+
+    private BymlArray CompilePaths()
+    {
+        BymlArray paths = new(Entries.Count * 3);
+        foreach (TagDatabaseEntry entry in Entries) {
+            paths.Add(entry.Prefix);
+            paths.Add(entry.Name);
+            paths.Add(entry.Suffix);
+        }
+
+        return paths;
     }
 }

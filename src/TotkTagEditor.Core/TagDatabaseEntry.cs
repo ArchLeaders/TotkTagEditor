@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using VYaml.Parser;
 
-namespace TotkTagEditor.Core.Models;
+namespace TotkTagEditor.Core;
 
 public partial class TagDatabaseEntry(string prefix, string name, string suffix) : ObservableObject
 {

@@ -1,6 +1,5 @@
 ﻿using Revrs;
 using System.Collections.Frozen;
-using TotkTagEditor.Core.Models;
 
 namespace TotkTagEditor.Core;
 

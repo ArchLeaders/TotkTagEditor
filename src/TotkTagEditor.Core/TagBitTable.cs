@@ -1,6 +1,6 @@
 ﻿using Revrs;
 
-namespace TotkTagEditor.Core.Models;
+namespace TotkTagEditor.Core;
 
 public class TagBitTable : List<TagBitTableEntry>
 {

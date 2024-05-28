@@ -1,0 +1,17 @@
+<UserControl x:Class="TotkTagEditor.Views.SettingsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:TotkTagEditor.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:SettingsViewModel"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:SettingsViewModel />
+    </UserControl.DataContext>
+    <TextBox Text="{Binding GamePath}"
+             UseFloatingWatermark="True"
+             Watermark="Game Path" />
+</UserControl>

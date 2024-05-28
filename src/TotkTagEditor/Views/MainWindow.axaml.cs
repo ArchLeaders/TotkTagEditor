@@ -9,6 +9,8 @@ public partial class MainWindow : AppWindow
     {
         InitializeComponent();
 
+        TitleBar.TitleBarHitTestType = TitleBarHitTestType.Complex;
+
         Bitmap bitmap = new(AssetLoader.Open(new Uri("avares://TotkTagEditor/Assets/icon.ico")));
         Icon = bitmap.CreateScaledBitmap(new(48, 48), BitmapInterpolationMode.HighQuality);
     }

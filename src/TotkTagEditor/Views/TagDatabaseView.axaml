@@ -3,10 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ae="using:AvaloniaEdit"
              xmlns:vm="using:TotkTagEditor.ViewModels"
              d:DesignHeight="450"
              d:DesignWidth="800"
              x:DataType="vm:TagDatabaseViewModel"
              mc:Ignorable="d">
-    Welcome to Avalonia!
+    <UserControl.Styles>
+        <Style Selector="ScrollViewer">
+            <Setter Property="AllowAutoHide" Value="False" />
+        </Style>
+        <Style Selector="ScrollBar">
+            <Setter Property="AllowAutoHide" Value="False" />
+        </Style>
+        <Style Selector="ae|TextEditor">
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        </Style>
+        <Style Selector="ae|TextEditor /template/ ScrollViewer#PART_ScrollViewer">
+            <Setter Property="AllowAutoHide" Value="False" />
+        </Style>
+    </UserControl.Styles>
+    <Grid ColumnDefinitions="*,Auto,*">
+        <ae:TextEditor Name="EntriesTextEditor"
+                       Margin="3"
+                       FontFamily="Consolas"
+                       ShowLineNumbers="True" />
+        <GridSplitter Grid.Column="1"
+                      MinWidth="4"
+                      Margin="0,10" />
+        <ae:TextEditor Name="TagsTextEditor"
+                       Grid.Column="2"
+                       Margin="3"
+                       FontFamily="Consolas"
+                       ShowLineNumbers="True" />
+    </Grid>
 </UserControl>

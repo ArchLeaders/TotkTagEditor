@@ -7,7 +7,6 @@ using Revrs.Buffers;
 using System.Buffers;
 using System.Collections.ObjectModel;
 using TotkCommon;
-using TotkTagEditor.Core.Models;
 using VYaml.Emitter;
 using VYaml.Parser;
 
@@ -154,6 +153,8 @@ public partial class TagDatabase : ObservableObject
 
     public void Save(Stream output)
     {
+        Sort();
+
         MemoryStream ms = new();
         Byml root = new BymlMap() {
             { "BitTable", CompileBitTable() },
@@ -170,6 +171,12 @@ public partial class TagDatabase : ObservableObject
         Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
 
         output.Write(compressed.Span);
+    }
+
+    public void Sort()
+    {
+        Entries = [.. Entries.OrderBy(x => x.Name, StringComparer.Ordinal)];
+        Tags = [.. Tags.Order(StringComparer.Ordinal)];
     }
 
     private byte[] CompileBitTable()

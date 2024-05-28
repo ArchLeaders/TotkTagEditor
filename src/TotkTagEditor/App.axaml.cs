@@ -1,7 +1,9 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using TotkTagEditor.Views;
 
 namespace TotkTagEditor;
@@ -35,6 +37,15 @@ public partial class App : Application
         return ApplicationLifetime switch {
             IClassicDesktopStyleApplicationLifetime desktop => desktop.MainWindow,
             ISingleViewApplicationLifetime singleViewPlatform => singleViewPlatform.MainView,
+            _ => null
+        };
+    }
+
+    public IStorageProvider? GetStorageProvider()
+    {
+        return ApplicationLifetime switch {
+            IClassicDesktopStyleApplicationLifetime desktop => desktop.MainWindow?.StorageProvider,
+            ISingleViewApplicationLifetime singleViewPlatform => (singleViewPlatform.MainView?.Parent as TopLevel)?.StorageProvider,
             _ => null
         };
     }

@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia;
+using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using TotkTagEditor.Models;
@@ -16,7 +18,22 @@ public partial class ShellViewModel : ObservableObject
     [RelayCommand]
     public async Task OpenFile()
     {
+        if ((Application.Current as App)?.GetStorageProvider() is not IStorageProvider storageProvider) {
+            return;
+        }
 
+        IReadOnlyList<IStorageFile> results = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {
+            AllowMultiple = true,
+            Title = "Open Tag Resource Database File(s)",
+            FileTypeFilter = [new FilePickerFileType("App Resource Database Files (Tag.Product.rstbl)") {
+                Patterns = ["*Tag.Product.*.rstbl.byml", "*Tag.Product.*.rstbl.byml.zs"]
+            }],
+        });
+
+        foreach (IStorageFile result in results) {
+            Documents.Add(new TagDatabaseViewModel(result.Path.LocalPath, await result.OpenReadAsync()));
+            Current = Documents[^1];
+        }
     }
 
     [RelayCommand]

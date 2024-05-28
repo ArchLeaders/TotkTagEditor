@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:app="using:TotkTagEditor"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:vm="using:TotkTagEditor.ViewModels"
              d:DesignHeight="450"
              d:DesignWidth="800"
@@ -11,5 +14,38 @@
     <UserControl.DataContext>
         <vm:ShellViewModel />
     </UserControl.DataContext>
-    Welcome to Avalonia!
+    <Grid RowDefinitions="*,25">
+        <ui:TabView Margin="0,15,0,0" AddTabButtonCommand="{Binding OpenFileCommand}" />
+        <Border Grid.Row="1" Background="{DynamicResource SystemAccentColor}">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <StackPanel Margin="2"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <StackPanel.Styles>
+                        <Style Selector="Button">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Width" Value="23" />
+                            <Setter Property="Height" Value="23" />
+                        </Style>
+                    </StackPanel.Styles>
+
+                    <Button Command="{Binding ShowSettingsCommand}">
+                        <ic:SymbolIcon FontSize="16" Symbol="Settings" />
+                    </Button>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="5">
+                    <TextBlock FontSize="12" Text="{x:Static app:App.AppName}" />
+                    <TextBlock FontSize="12" Text="|" />
+                    <TextBlock FontSize="12"
+                               FontWeight="Medium"
+                               Text="{x:Static app:App.Version}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

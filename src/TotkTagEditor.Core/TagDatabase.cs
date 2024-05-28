@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using TotkCommon;
 using TotkTagEditor.Core.Models;
 using VYaml.Emitter;
+using VYaml.Parser;
 
 namespace TotkTagEditor.Core;
 
@@ -17,10 +18,10 @@ public partial class TagDatabase : ObservableObject
     private readonly int _dictionaryId = 1;
 
     [ObservableProperty]
-    private ObservableCollection<string> _tags;
+    private ObservableCollection<TagDatabaseEntry> _entries = [];
 
     [ObservableProperty]
-    private ObservableCollection<TagDatabaseEntry> _entries = [];
+    private ObservableCollection<string> _tags;
 
     /// <summary>
     /// The raw RankTable bytes (unused in TotK)
@@ -35,6 +36,35 @@ public partial class TagDatabase : ObservableObject
         using ArraySegmentOwner<byte> buffer = ArraySegmentOwner<byte>.Allocate(size);
         fs.Read(buffer.Segment);
         return new(buffer.Segment);
+    }
+
+    public static TagDatabase FromYaml(ReadOnlySequence<byte> data)
+    {
+        ObservableCollection<TagDatabaseEntry> entries = [];
+        ObservableCollection<string> tags = [];
+        byte[] rankTable = [];
+
+        YamlParser parser = new(data);
+        parser.SkipAfter(ParseEventType.SequenceStart);
+        while (parser.CurrentEventType != ParseEventType.SequenceEnd) {
+            entries.Add(TagDatabaseEntry.FromYaml(ref parser));
+        }
+
+        parser.SkipAfter(ParseEventType.SequenceStart);
+        while (parser.CurrentEventType != ParseEventType.SequenceEnd) {
+            if (parser.TryReadScalarAsString(out string? tag) && tag is not null) {
+                tags.Add(tag);
+            }
+        }
+
+        parser.SkipAfter(ParseEventType.SequenceEnd);
+        parser.SkipCurrentNode();
+
+        if (parser.TryReadScalarAsString(out string? rankTableBase64) && rankTableBase64 is not null) {
+            rankTable = Convert.FromBase64String(rankTableBase64);
+        }
+
+        return new(entries, tags, rankTable);
     }
 
     public TagDatabase(ArraySegment<byte> data)
@@ -70,6 +100,13 @@ public partial class TagDatabase : ObservableObject
             TagDatabaseEntry entry = new(prefix, name, suffix, bitTable.GetTags(index, _tags));
             _entries.Add(entry);
         }
+    }
+
+    public TagDatabase(ObservableCollection<TagDatabaseEntry> entries, ObservableCollection<string> tags, byte[] rankTable)
+    {
+        _entries = entries;
+        _tags = tags;
+        _rankTableCache = rankTable;
     }
 
     public void WriteYaml(IBufferWriter<byte> writer)

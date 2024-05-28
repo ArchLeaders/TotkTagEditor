@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Tkmm.BymlLibrary" Version="1.0.5" />
+    <PackageReference Include="Tkmm.BymlLibrary" Version="1.0.6" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="TotkCommon" Version="1.2.4" />
     <PackageReference Include="VYaml" Version="0.26.0" />

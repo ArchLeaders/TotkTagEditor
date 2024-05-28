@@ -114,10 +114,24 @@ public partial class TagDatabase : ObservableObject
         Utf8YamlEmitter emitter = new(writer);
 
         emitter.BeginMapping();
-        emitter.WriteString("Entries");
-        emitter.BeginSequence();
+        {
+            emitter.WriteString("Entries");
+            WriteYamlEntries(ref emitter);
+
+            emitter.WriteString("Tags");
+            WriteYamlTags(ref emitter);
+
+            emitter.WriteString("RankTable");
+            emitter.Tag("!!binary");
+            emitter.WriteString(Convert.ToBase64String(RankTableCache));
+        }
+        emitter.EndMapping();
+    }
+
+    public void WriteYamlEntries(ref Utf8YamlEmitter emitter)
+    {
+        emitter.BeginMapping();
         foreach (TagDatabaseEntry entry in Entries) {
-            emitter.BeginMapping();
             emitter.WriteString($"{entry.Prefix}|{entry.Name}|{entry.Suffix}");
 
             emitter.BeginSequence();
@@ -125,21 +139,17 @@ public partial class TagDatabase : ObservableObject
                 emitter.WriteString(tag);
             }
             emitter.EndSequence();
-            emitter.EndMapping();
         }
-        emitter.EndSequence();
+        emitter.EndMapping();
+    }
 
-        emitter.WriteString("Tags");
+    public void WriteYamlTags(ref Utf8YamlEmitter emitter)
+    {
         emitter.BeginSequence();
         foreach (string tag in Tags) {
             emitter.WriteString(tag);
         }
         emitter.EndSequence();
-
-        emitter.WriteString("RankTable");
-        emitter.Tag("!!binary");
-        emitter.WriteString(Convert.ToBase64String(RankTableCache));
-        emitter.EndMapping();
     }
 
     public void Save(Stream output)

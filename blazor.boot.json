@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "TotkTagEditor.Browser.dll",
   "resources": {
-    "hash": "sha256-m6Uu6QN56vcBx1VwYxU5Bk8YrYJrAQ1sDfVXFBM493U=",
+    "hash": "sha256-PNd15DlygoKb4CbD68Ig/OgkIaDJILX9dTVJZ//swbk=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-rFiP2IWIr0kC4pb3YAkYBrcu3iMapM8ND4OgiZT2suM="
     },
@@ -77,9 +77,9 @@
       "TextMateSharp.wasm": "sha256-3/tDhTKKUM3UxDnA/CWLrQ+u2I5Aj5I7IGS3HG8RNaM=",
       "TextMateSharp.Grammars.wasm": "sha256-NI060wctqYmHHb422kXsmyfBGOMC10OKRAHhEgaueFU=",
       "TotkCommon.wasm": "sha256-SiLW5O1debuWJfL6VIAgiJy38oEbJKmZBOMphogqVqk=",
-      "TotkTagEditor.Browser.wasm": "sha256-VoNHkrZ/AYLR2dKjPsIGLioIb57N6tmGMj3v+ZuAiOk=",
-      "TotkTagEditor.Core.wasm": "sha256-mCjm+JpDGxFiwbKpr6PjuQltyYp6eiPaziXm99m4uHQ=",
-      "TotkTagEditor.wasm": "sha256-/dL1ZsH+qUHXFmHd5+D4mS4TQHMAQC4xoz4cdX/Wk9E=",
+      "TotkTagEditor.Browser.wasm": "sha256-yLVt+qlSFjaVrvqiQXJSTc6gz3XRrZuxiWVLWn5kWAc=",
+      "TotkTagEditor.Core.wasm": "sha256-FWMSYVv4a0WT3mL6j1QCcCsx1uwtxXM/xRPjtJyGzVw=",
+      "TotkTagEditor.wasm": "sha256-8wEYoMwoUTmO9yKOoVpVSed9Yy7q6xjEPFpgN9oTBFY=",
       "VYaml.wasm": "sha256-EWooqlJEtvLnRihUmHg7AvhWXkUobfmLT05e3yu6vu4=",
       "ZstdSharp.wasm": "sha256-rNR/JA+cKXU3DaPgZK2pJ2dZGvZibuGz7fY0uhzBK6U="
     },

@@ -26,7 +26,7 @@ public partial class ShellViewModel : ObservableObject
         IReadOnlyList<IStorageFile> results = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {
             AllowMultiple = true,
             Title = "Open Tag Resource Database File(s)",
-            FileTypeFilter = [new FilePickerFileType("App Resource Database Files (Tag.Product.rstbl)") {
+            FileTypeFilter = [new FilePickerFileType("Tag Resource Database Files (Tag.Product.rstbl)") {
                 Patterns = ["*Tag.Product.*.rstbl.byml", "*Tag.Product.*.rstbl.byml.zs"]
             }],
         });

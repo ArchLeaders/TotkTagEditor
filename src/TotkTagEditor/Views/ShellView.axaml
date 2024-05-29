@@ -12,6 +12,12 @@
              d:DesignWidth="800"
              x:DataType="vm:ShellViewModel"
              mc:Ignorable="d">
+    <UserControl.KeyBindings>
+        <KeyBinding Command="{Binding ShowSettingsCommand}" Gesture="Ctrl+B" />
+        <KeyBinding Command="{Binding OpenFileCommand}" Gesture="Ctrl+O" />
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S" />
+        <KeyBinding Command="{Binding SaveAsCommand}" Gesture="Ctrl+Shift+S" />
+    </UserControl.KeyBindings>
     <UserControl.DataContext>
         <vm:ShellViewModel />
     </UserControl.DataContext>
@@ -51,6 +57,10 @@
 
                     <Button Command="{Binding ShowSettingsCommand}" ToolTip.Tip="Settings | Ctrl + B">
                         <ic:SymbolIcon FontSize="16" Symbol="Settings" />
+                    </Button>
+
+                    <Button Command="{Binding OpenFileCommand}" ToolTip.Tip="Open File | Ctrl + O">
+                        <ic:SymbolIcon FontSize="16" Symbol="DocumentArrowRight" />
                     </Button>
 
                     <Button Command="{Binding SaveCommand}" ToolTip.Tip="Save | Ctrl + S">

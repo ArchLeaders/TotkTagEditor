@@ -19,6 +19,7 @@
         <ui:TabView HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AddTabButtonCommand="{Binding OpenFileCommand}"
+                    AllowDropTabs="True"
                     CanDragTabs="True"
                     CanReorderTabs="True"
                     SelectedItem="{Binding Current}"
@@ -38,7 +39,8 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Margin="2"
                             VerticalAlignment="Center"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Spacing="2">
                     <StackPanel.Styles>
                         <Style Selector="Button">
                             <Setter Property="Padding" Value="0" />
@@ -47,8 +49,16 @@
                         </Style>
                     </StackPanel.Styles>
 
-                    <Button Command="{Binding ShowSettingsCommand}">
+                    <Button Command="{Binding ShowSettingsCommand}" ToolTip.Tip="Settings | Ctrl + B">
                         <ic:SymbolIcon FontSize="16" Symbol="Settings" />
+                    </Button>
+
+                    <Button Command="{Binding SaveCommand}" ToolTip.Tip="Save | Ctrl + S">
+                        <ic:SymbolIcon FontSize="16" Symbol="Save" />
+                    </Button>
+
+                    <Button Command="{Binding SaveAsCommand}" ToolTip.Tip="Save As | Ctrl + Shift + S">
+                        <ic:SymbolIcon FontSize="16" Symbol="SaveArrowRight" />
                     </Button>
                 </StackPanel>
 

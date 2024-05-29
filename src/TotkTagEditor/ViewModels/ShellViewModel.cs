@@ -37,6 +37,41 @@ public partial class ShellViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task Save()
+    {
+        if (Current is null) {
+            return;
+        }
+
+        await Current.Save();
+    }
+
+    [RelayCommand]
+    public async Task SaveAs()
+    {
+        if (Current is null) {
+            return;
+        }
+
+        if ((Application.Current as App)?.GetStorageProvider() is not IStorageProvider storageProvider) {
+            return;
+        }
+
+        IStorageFile? result = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions {
+            Title = "Open Tag Resource Database File(s)",
+            FileTypeChoices = [new FilePickerFileType("App Resource Database Files (Tag.Product.rstbl)") {
+                Patterns = ["*Tag.Product.*.rstbl.byml", "*Tag.Product.*.rstbl.byml.zs"]
+            }],
+        });
+
+        if (result is null) {
+            return;
+        }
+
+        await Current.SaveAs(result.Path.LocalPath);
+    }
+
+    [RelayCommand]
     public void ShowSettings()
     {
         if (Documents.FirstOrDefault(x => x is SettingsViewModel) is SettingsViewModel target) {

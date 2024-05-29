@@ -20,8 +20,24 @@ public partial class SettingsViewModel : Document
         };
     }
 
+    public override Task<bool> SaveAs(string path) => Save();
+    public override Task<bool> Save()
+    {
+        Totk.Config.Save();
+        return Task.FromResult(true);
+    }
+
     partial void OnGamePathChanged(string value)
     {
-        Totk.Config.GamePath = value;
+        try {
+            Totk.Config.GamePath = value;
+        }
+        catch (Exception ex) {
+            throw new InvalidOperationException("""
+                Invalid Game Path
+                """, ex);
+        }
+
+        Save();
     }
 }

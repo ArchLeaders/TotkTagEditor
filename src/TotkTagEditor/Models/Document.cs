@@ -3,7 +3,7 @@ using FluentAvalonia.UI.Controls;
 
 namespace TotkTagEditor.Models;
 
-public partial class Document : ObservableObject
+public abstract partial class Document : ObservableObject
 {
     [ObservableProperty]
     private string _title;
@@ -16,6 +16,9 @@ public partial class Document : ObservableObject
 
     [ObservableProperty]
     private object? _content;
+
+    public abstract Task<bool> Save();
+    public abstract Task<bool> SaveAs(string path);
 
     public virtual Task<bool> CloseRequested()
     {

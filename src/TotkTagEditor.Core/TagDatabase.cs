@@ -165,7 +165,7 @@ public partial class TagDatabase : ObservableObject
 
     public void Sort()
     {
-        // Entries = [.. Entries.OrderBy(x => x.Name, StringComparer.Ordinal)];
+        Entries = [.. Entries.OrderBy(x => x.Prefix + x.Name + x.Suffix, StringComparer.Ordinal)];
         Tags = [.. Tags.Order(StringComparer.Ordinal)];
     }
 

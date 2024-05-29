@@ -67,7 +67,7 @@ public partial class TagDatabaseViewModel : Document
     public override Task<bool> SaveAs(string path)
     {
         using FileStream fs = File.Create(path);
-        GetTagDatabase().Save(fs);
+        GetTagDatabase().Save(fs, path.EndsWith(".zs"));
         return Task.FromResult(true);
     }
 

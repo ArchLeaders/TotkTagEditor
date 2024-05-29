@@ -131,7 +131,7 @@ public partial class TagDatabase : ObservableObject
         emitter.EndSequence();
     }
 
-    public void Save(Stream output)
+    public void Save(Stream output, bool compress)
     {
         Sort();
 
@@ -147,10 +147,15 @@ public partial class TagDatabase : ObservableObject
         ms.Seek(0, SeekOrigin.Begin);
         byte[] raw = ms.ToArray();
 
-        using SpanOwner<byte> compressed = SpanOwner<byte>.Allocate(raw.Length);
-        int size = Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
+        if (compress) {
+            using SpanOwner<byte> compressed = SpanOwner<byte>.Allocate(raw.Length);
+            int size = Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
 
-        output.Write(compressed.Span[..size]);
+            output.Write(compressed.Span[..size]);
+            return;
+        }
+
+        output.Write(raw);
     }
 
     public void Sort()

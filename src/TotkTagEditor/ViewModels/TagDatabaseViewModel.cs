@@ -19,11 +19,15 @@ public partial class TagDatabaseViewModel : Document
     private readonly TagDatabaseView _view;
     private readonly string _path;
 
-    [ObservableProperty]
-    private string _entriesYaml;
+    public string EntriesYaml {
+        get => _view.EntriesTextEditor.Text;
+        set => _view.EntriesTextEditor.Text = value;
+    }
 
-    [ObservableProperty]
-    private string _tagsYaml;
+    public string TagsYaml {
+        get => _view.TagsTextEditor.Text;
+        set => _view.TagsTextEditor.Text = value;
+    }
 
     [ObservableProperty]
     private byte[] _rankTable;
@@ -35,26 +39,23 @@ public partial class TagDatabaseViewModel : Document
         int size = Convert.ToInt32(input.Length);
         using ArraySegmentOwner<byte> data = ArraySegmentOwner<byte>.Allocate(size);
         input.Read(data.Segment);
+
         TagDatabase database = new(data.Segment);
+        _rankTable = database.RankTableCache;
 
         using ArrayPoolBufferWriter<byte> writer = new();
         Utf8YamlEmitter emitter = new(writer);
-
-        database.WriteYamlEntries(ref emitter);
-        int entriesOffset = writer.WrittenSpan.Length;
-        _entriesYaml = Encoding.UTF8.GetString(writer.WrittenSpan);
-
-        database.WriteYamlTags(ref emitter);
-        _tagsYaml = Encoding.UTF8.GetString(writer.WrittenSpan[entriesOffset..]);
-
-        _rankTable = database.RankTableCache;
 
         _view = new TagDatabaseView {
             DataContext = this
         };
 
-        _view.EntriesTextEditor.Text = _entriesYaml;
-        _view.TagsTextEditor.Text = _tagsYaml;
+        database.WriteYamlEntries(ref emitter);
+        int entriesOffset = writer.WrittenSpan.Length;
+        EntriesYaml = Encoding.UTF8.GetString(writer.WrittenSpan);
+
+        database.WriteYamlTags(ref emitter);
+        TagsYaml = Encoding.UTF8.GetString(writer.WrittenSpan[entriesOffset..]);
 
         Content = _view;
     }
@@ -66,8 +67,10 @@ public partial class TagDatabaseViewModel : Document
 
     public override async Task<bool> SaveAs(string path)
     {
-        using FileStream fs = File.Create(path);
-        GetTagDatabase().Save(fs, path.EndsWith(".zs"));
+        using (FileStream fs = File.Create(path)) {
+            GetTagDatabase().Save(fs, path.EndsWith(".zs"));
+        }
+
         await Dialogs.Success(
             $"File successfully saved to '{path}'",
             "Saved Successful");
@@ -99,15 +102,5 @@ public partial class TagDatabaseViewModel : Document
 
         YamlParser parser = new(utf8Yaml);
         return TagDatabaseYaml.ReadTags(ref parser);
-    }
-
-    partial void OnEntriesYamlChanged(string value)
-    {
-        _view.EntriesTextEditor.Text = value;
-    }
-
-    partial void OnTagsYamlChanged(string value)
-    {
-        _view.TagsTextEditor.Text = value;
     }
 }

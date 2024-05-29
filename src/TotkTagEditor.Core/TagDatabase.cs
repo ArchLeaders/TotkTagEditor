@@ -140,10 +140,13 @@ public partial class TagDatabase : ObservableObject
     {
         Sort();
 
+        // Must run before CompileBitTable
+        BymlArray paths = CompilePaths();
+
         MemoryStream ms = new();
         Byml root = new BymlMap() {
             { "BitTable", CompileBitTable() },
-            { "PathList", CompilePaths() },
+            { "PathList", paths },
             { "RankTable", RankTableCache },
             { "TagList", new BymlArray(Tags.Select(x => (Byml)x)) }
         };
@@ -182,6 +185,8 @@ public partial class TagDatabase : ObservableObject
             paths.Add(entry.Prefix);
             paths.Add(entry.Name);
             paths.Add(entry.Suffix);
+
+            entry.Tags = [.. entry.Tags.Order(StringComparer.Ordinal)];
         }
 
         return paths;

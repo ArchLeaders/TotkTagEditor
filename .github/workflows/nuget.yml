@@ -12,7 +12,7 @@ env:
   description: |-
     IO library for the Tag.Product file used in TotK
   readme: ./Readme.md
-  icon: ./Icon.png
+  icon: ./Icon-256.png
   repo: https://github.com/ArchLeaders/TotkTagEditor
   spdx: MIT
   tags: totk;zelda;zeldamods;tags;tag.product

@@ -3,6 +3,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using TotkCommon;
 using TotkTagEditor.Models;
 
 namespace TotkTagEditor.ViewModels;
@@ -59,6 +60,7 @@ public partial class ShellViewModel : ObservableObject
 
         IStorageFile? result = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions {
             Title = "Open Tag Resource Database File(s)",
+            SuggestedFileName = $"Tag.Product.{Totk.Config.Version}.rstbl.byml.zs",
             FileTypeChoices = [new FilePickerFileType("App Resource Database Files (Tag.Product.rstbl)") {
                 Patterns = ["*Tag.Product.*.rstbl.byml", "*Tag.Product.*.rstbl.byml.zs"]
             }],

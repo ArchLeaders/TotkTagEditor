@@ -62,7 +62,12 @@ public partial class TagDatabase : ObservableObject
 
         BymlMap root = byml.GetMap();
         _tags = [.. root["TagList"].GetArray().Select(x => x.GetString())];
-        _rankTableCache = root["RankTable"].GetBinary();
+
+        Byml rankTable = root["RankTable"];
+        _rankTableCache = rankTable.Type switch {
+            BymlNodeType.Binary => rankTable.GetBinary(),
+            _ => []
+        };
 
         BymlArray actorPaths = root["PathList"].GetArray();
         int actorPathCount = actorPaths.Count / 3;

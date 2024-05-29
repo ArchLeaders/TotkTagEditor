@@ -8,11 +8,16 @@ using TotkTagEditor;
 
 internal partial class Program
 {
-    private static async Task Main() => await BuildAvaloniaApp()
+    private static async Task Main()
+    {
+        await BuildAvaloniaApp()
             .StartBrowserAppAsync("out");
+    }
 
     public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
-            .UseSegoeMetrics()
-            .WithInterFont();
+    {
+        return AppBuilder.Configure<App>()
+                .UseSegoeMetrics()
+                .WithInterFont();
+    }
 }

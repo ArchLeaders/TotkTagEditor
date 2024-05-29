@@ -8,7 +8,6 @@ using System.Buffers;
 using System.Collections.ObjectModel;
 using TotkCommon;
 using VYaml.Emitter;
-using VYaml.Parser;
 
 namespace TotkTagEditor.Core;
 
@@ -37,8 +36,15 @@ public partial class TagDatabase : ObservableObject
         return new(buffer.Segment);
     }
 
-    public static TagDatabase FromYaml(string yaml) => TagDatabaseYaml.FromYaml(yaml);
-    public static TagDatabase FromYaml(ReadOnlySequence<byte> data) => TagDatabaseYaml.FromYaml(data);
+    public static TagDatabase FromYaml(string yaml)
+    {
+        return TagDatabaseYaml.FromYaml(yaml);
+    }
+
+    public static TagDatabase FromYaml(ReadOnlySequence<byte> data)
+    {
+        return TagDatabaseYaml.FromYaml(data);
+    }
 
     public TagDatabase(ArraySegment<byte> data)
     {

@@ -10,21 +10,18 @@ public class TagBitTableEntry
     {
         _flags = new bool[entrySize];
 
-        for (int i = 0; i < entrySize; i++)
-        {
-            _flags[i] = (current >> bitOffset & 1) == 1;
+        for (int i = 0; i < entrySize; i++) {
+            _flags[i] = ((current >> bitOffset) & 1) == 1;
 
-            switch (bitOffset)
-            {
+            switch (bitOffset) {
                 case 7:
                     bitOffset = 0;
                     current = reader.Read<byte>();
                     break;
-                default:
-                    {
-                        bitOffset++;
-                        break;
-                    }
+                default: {
+                    bitOffset++;
+                    break;
+                }
             }
         }
     }

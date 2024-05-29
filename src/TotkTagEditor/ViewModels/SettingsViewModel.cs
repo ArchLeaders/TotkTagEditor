@@ -20,7 +20,11 @@ public partial class SettingsViewModel : Document
         };
     }
 
-    public override Task<bool> SaveAs(string path) => Save();
+    public override Task<bool> SaveAs(string path)
+    {
+        return Save();
+    }
+
     public override Task<bool> Save()
     {
         Totk.Config.Save();

@@ -11,8 +11,8 @@ env:
   authors: ArchLeaders
   description: |-
     IO library for the Tag.Product file used in TotK
-  readme: ./Readme.md
-  icon: ./Icon.png
+  readme: ./Assets/Readme.md
+  icon: ./Assets/Icon.png
   repo: https://github.com/ArchLeaders/TotkTagEditor
   spdx: MIT
   tags: totk;zelda;zeldamods;tags;tag.product

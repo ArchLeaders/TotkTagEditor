@@ -64,11 +64,14 @@ public partial class TagDatabaseViewModel : Document
         return SaveAs(_path);
     }
 
-    public override Task<bool> SaveAs(string path)
+    public override async Task<bool> SaveAs(string path)
     {
         using FileStream fs = File.Create(path);
         GetTagDatabase().Save(fs, path.EndsWith(".zs"));
-        return Task.FromResult(true);
+        await Dialogs.Success(
+            $"File successfully saved to '{path}'",
+            "Saved Successful");
+        return true;
     }
 
     private TagDatabase GetTagDatabase()

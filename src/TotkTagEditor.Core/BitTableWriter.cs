@@ -25,34 +25,33 @@ public unsafe class BitTableWriter
 
     public byte[] Compile()
     {
-        RevrsReader reader = RevrsReader.Native(_result);
-        fixed (byte* ptr = &reader.Data[0]) {
+        fixed (byte* ptr = &_result[0]) {
             int bitOffset = 0;
             byte** current = &ptr;
 
             foreach (TagDatabaseEntry entry in _entries) {
-                FillEntry(entry.Tags, ref reader, current, ref bitOffset);
+                FillEntry(entry.Tags, current, ref bitOffset);
             }
 
             return _result;
         }
     }
 
-    public void FillEntry(IEnumerable<string> tags, ref RevrsReader reader, byte** current, ref int bitOffset)
+    public void FillEntry(IEnumerable<string> tags, byte** current, ref int bitOffset)
     {
         int currentEntryIndex = 0;
 
         foreach (string tag in tags) {
             int index = _tagLookup[tag];
-            MoveBy(index - currentEntryIndex, ref reader, current, ref bitOffset);
+            MoveBy(index - currentEntryIndex, current, ref bitOffset);
             **current |= (byte)(0x1 << bitOffset);
             currentEntryIndex = index;
         }
 
-        MoveBy(_tagLookup.Count - currentEntryIndex, ref reader, current, ref bitOffset);
+        MoveBy(_tagLookup.Count - currentEntryIndex, current, ref bitOffset);
     }
 
-    private unsafe void MoveBy(int bits, ref RevrsReader reader, byte** current, ref int bitOffset)
+    private unsafe void MoveBy(int bits, byte** current, ref int bitOffset)
     {
         int byteCount = (bits += bitOffset) / 8;
         *current += byteCount;

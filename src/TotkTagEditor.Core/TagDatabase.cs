@@ -37,34 +37,8 @@ public partial class TagDatabase : ObservableObject
         return new(buffer.Segment);
     }
 
-    public static TagDatabase FromYaml(ReadOnlySequence<byte> data)
-    {
-        ObservableCollection<TagDatabaseEntry> entries = [];
-        ObservableCollection<string> tags = [];
-        byte[] rankTable = [];
-
-        YamlParser parser = new(data);
-        parser.SkipAfter(ParseEventType.SequenceStart);
-        while (parser.CurrentEventType != ParseEventType.SequenceEnd) {
-            entries.Add(TagDatabaseEntry.FromYaml(ref parser));
-        }
-
-        parser.SkipAfter(ParseEventType.SequenceStart);
-        while (parser.CurrentEventType != ParseEventType.SequenceEnd) {
-            if (parser.TryReadScalarAsString(out string? tag) && tag is not null) {
-                tags.Add(tag);
-            }
-        }
-
-        parser.SkipAfter(ParseEventType.SequenceEnd);
-        parser.SkipCurrentNode();
-
-        if (parser.TryReadScalarAsString(out string? rankTableBase64) && rankTableBase64 is not null) {
-            rankTable = Convert.FromBase64String(rankTableBase64);
-        }
-
-        return new(entries, tags, rankTable);
-    }
+    public static TagDatabase FromYaml(string yaml) => TagDatabaseYaml.FromYaml(yaml);
+    public static TagDatabase FromYaml(ReadOnlySequence<byte> data) => TagDatabaseYaml.FromYaml(data);
 
     public TagDatabase(ArraySegment<byte> data)
     {
@@ -168,14 +142,14 @@ public partial class TagDatabase : ObservableObject
         byte[] raw = ms.ToArray();
 
         using SpanOwner<byte> compressed = SpanOwner<byte>.Allocate(raw.Length);
-        Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
+        int size = Totk.Zstd.Compress(raw, compressed.Span, _dictionaryId);
 
-        output.Write(compressed.Span);
+        output.Write(compressed.Span[..size]);
     }
 
     public void Sort()
     {
-        Entries = [.. Entries.OrderBy(x => x.Name, StringComparer.Ordinal)];
+        // Entries = [.. Entries.OrderBy(x => x.Name, StringComparer.Ordinal)];
         Tags = [.. Tags.Order(StringComparer.Ordinal)];
     }
 

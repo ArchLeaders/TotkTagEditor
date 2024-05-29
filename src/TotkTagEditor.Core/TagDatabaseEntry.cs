@@ -20,8 +20,6 @@ public partial class TagDatabaseEntry(string prefix, string name, string suffix)
 
     public static TagDatabaseEntry FromYaml(ref YamlParser parser)
     {
-        parser.SkipAfter(ParseEventType.MappingStart);
-
         string name = parser.ReadScalarAsString()
             ?? throw new InvalidDataException("""
                 Tag entry path cannot be null.
@@ -42,7 +40,7 @@ public partial class TagDatabaseEntry(string prefix, string name, string suffix)
             }
         }
 
-        parser.SkipAfter(ParseEventType.MappingEnd);
+        parser.SkipAfter(ParseEventType.SequenceEnd);
         return new(parts[0], parts[1], parts[2], tags);
     }
 

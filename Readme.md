@@ -65,7 +65,7 @@ dotnet build TotkTagEditor
 
 # Install Library
 
-[![NuGet](https://img.shields.io/nuget/v/TotkTagEditor.svg?label=NuGet&logo=NuGet&labelColor=2A2C33&color=004880&style=for-the-badge)](https://www.nuget.org/packages/TotkTagEditor.Core) [![NuGet](https://img.shields.io/nuget/dt/TotkTagEditor.svg?label=NuGet&logo=NuGet&labelColor=2A2C33&color=37c75e&style=for-the-badge)](https://www.nuget.org/packages/TotkTagEditor.Core)
+[![NuGet](https://img.shields.io/nuget/v/TotkTagEditor.Core.svg?label=NuGet&logo=NuGet&labelColor=2A2C33&color=004880&style=for-the-badge)](https://www.nuget.org/packages/TotkTagEditor.Core) [![NuGet](https://img.shields.io/nuget/dt/TotkTagEditor.Core.svg?label=NuGet&logo=NuGet&labelColor=2A2C33&color=37c75e&style=for-the-badge)](https://www.nuget.org/packages/TotkTagEditor.Core)
 
 ## NuGet
 ```powershell

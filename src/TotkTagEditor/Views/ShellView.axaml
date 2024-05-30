@@ -21,7 +21,10 @@
     <UserControl.DataContext>
         <vm:ShellViewModel />
     </UserControl.DataContext>
-    <Grid RowDefinitions="*,25">
+    <Grid Name="DragRegion"
+          Background="Transparent"
+          DragDrop.AllowDrop="True"
+          RowDefinitions="*,25">
         <ui:TabView HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     AddTabButtonCommand="{Binding OpenFileCommand}"

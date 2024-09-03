@@ -40,12 +40,14 @@ public partial class ShellView : UserControl
             return;
         }
 
-        if (e.Data.GetFiles() is IEnumerable<IStorageItem> files) {
-            foreach (IStorageFile file in files.Where(x => x.Path.IsFile).Cast<IStorageFile>()) {
-                TagDatabaseViewModel tagDatabaseViewModel = new(file.Path.LocalPath, await file.OpenReadAsync());
-                vm.Documents.Add(tagDatabaseViewModel);
-                vm.Current = vm.Documents[^1];
-            }
+        if (e.Data.GetFiles() is not IEnumerable<IStorageItem> files) {
+            return;
+        }
+
+        foreach (IStorageFile file in files.Where(x => x is IStorageFile).Cast<IStorageFile>()) {
+            TagDatabaseViewModel tagDatabaseViewModel = await TagDatabaseViewModel.FromStorageFileAsync(file);
+            vm.Documents.Add(tagDatabaseViewModel);
+            vm.Current = vm.Documents[^1];
         }
     }
 }

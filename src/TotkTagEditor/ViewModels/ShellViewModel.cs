@@ -32,7 +32,7 @@ public partial class ShellViewModel : ObservableObject
         });
 
         foreach (IStorageFile result in results) {
-            Documents.Add(new TagDatabaseViewModel(result.Path.LocalPath, await result.OpenReadAsync()));
+            Documents.Add(await TagDatabaseViewModel.FromStorageFileAsync(result));
             Current = Documents[^1];
         }
     }
@@ -61,7 +61,7 @@ public partial class ShellViewModel : ObservableObject
         IStorageFile? result = await storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions {
             Title = "Open Tag Resource Database File(s)",
             SuggestedFileName = $"Tag.Product.{Totk.Config.Version}.rstbl.byml.zs",
-            FileTypeChoices = [new FilePickerFileType("App Resource Database Files (Tag.Product.rstbl)") {
+            FileTypeChoices = [new("App Resource Database Files (Tag.Product.rstbl)") {
                 Patterns = ["*Tag.Product.*.rstbl.byml", "*Tag.Product.*.rstbl.byml.zs"]
             }],
         });
@@ -70,7 +70,7 @@ public partial class ShellViewModel : ObservableObject
             return;
         }
 
-        await Current.SaveAs(result.Path.LocalPath);
+        await Current.SaveAs(result);
     }
 
     [RelayCommand]

@@ -5,6 +5,7 @@ using Revrs.Buffers;
 using System.Buffers;
 using System.Collections.ObjectModel;
 using System.Text;
+using Avalonia.Platform.Storage;
 using TotkTagEditor.Core;
 using TotkTagEditor.Extensions;
 using TotkTagEditor.Models;
@@ -17,7 +18,7 @@ namespace TotkTagEditor.ViewModels;
 public partial class TagDatabaseViewModel : Document
 {
     private readonly TagDatabaseView _view;
-    private readonly string _path;
+    private readonly IStorageFile _target;
 
     public string EntriesYaml {
         get => _view.EntriesTextEditor.Text;
@@ -32,15 +33,22 @@ public partial class TagDatabaseViewModel : Document
     [ObservableProperty]
     private byte[] _rankTable;
 
-    public TagDatabaseViewModel(string path, Stream input) : base(path.GetRomfsParentFolderName(), path, Symbol.Tag)
+    public static async Task<TagDatabaseViewModel> FromStorageFileAsync(IStorageFile target)
     {
-        _path = path;
-
+        await using Stream input = await target.OpenReadAsync();
         int size = Convert.ToInt32(input.Length);
-        using ArraySegmentOwner<byte> data = ArraySegmentOwner<byte>.Allocate(size);
-        input.Read(data.Segment);
+        byte[] data = ArrayPool<byte>.Shared.Rent(size);
+        int read = await input.ReadAsync(data);
+        TagDatabaseViewModel result = new(target, new(data, 0, read));
+        ArrayPool<byte>.Shared.Return(data);
+        return result;
+    }
 
-        TagDatabase database = new(data.Segment);
+    public TagDatabaseViewModel(IStorageFile target, ArraySegment<byte> data) : base(target.Path.OriginalString.GetRomfsParentFolderName(), target.Name, Symbol.Tag)
+    {
+        _target = target;
+
+        TagDatabase database = new(data);
         _rankTable = database.RankTableCache;
 
         using ArrayPoolBufferWriter<byte> writer = new();
@@ -62,17 +70,17 @@ public partial class TagDatabaseViewModel : Document
 
     public override Task<bool> Save()
     {
-        return SaveAs(_path);
+        return SaveAs(_target);
     }
 
-    public override async Task<bool> SaveAs(string path)
+    public override async Task<bool> SaveAs(IStorageFile target)
     {
-        using (FileStream fs = File.Create(path)) {
-            GetTagDatabase().Save(fs, path.EndsWith(".zs"));
+        await using (Stream output = await target.OpenWriteAsync()) {
+            GetTagDatabase().Save(output, Path.GetExtension(target.Path.OriginalString.AsSpan()) is ".zs");
         }
 
         await Dialogs.Success(
-            $"File successfully saved to '{path}'",
+            $"File successfully saved to '{target.Name}'",
             "Saved Successful");
         return true;
     }

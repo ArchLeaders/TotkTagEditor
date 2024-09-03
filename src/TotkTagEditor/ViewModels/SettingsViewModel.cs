@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 using TotkCommon;
 using TotkTagEditor.Models;
@@ -20,7 +21,7 @@ public partial class SettingsViewModel : Document
         };
     }
 
-    public override Task<bool> SaveAs(string path)
+    public override Task<bool> SaveAs(IStorageFile _)
     {
         return Save();
     }

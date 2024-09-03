@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentAvalonia.UI.Controls;
 
 namespace TotkTagEditor.Models;
@@ -18,7 +19,7 @@ public abstract partial class Document : ObservableObject
     private object? _content;
 
     public abstract Task<bool> Save();
-    public abstract Task<bool> SaveAs(string path);
+    public abstract Task<bool> SaveAs(IStorageFile target);
 
     public virtual Task<bool> CloseRequested()
     {

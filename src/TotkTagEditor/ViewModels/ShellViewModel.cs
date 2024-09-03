@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Buffers;
+using Avalonia;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -83,5 +84,35 @@ public partial class ShellViewModel : ObservableObject
 
         Documents.Add(new SettingsViewModel());
         Current = Documents[^1];
+    }
+
+    [RelayCommand]
+    public async Task ImportZstd()
+    {
+        if ((Application.Current as App)?.GetStorageProvider() is not IStorageProvider storageProvider) {
+            return;
+        }
+
+        IReadOnlyList<IStorageFile> result = await storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions {
+            Title = "Import zStandard Dictionaries",
+            SuggestedFileName = $"ZsDic.pack.zs",
+            AllowMultiple = false,
+            FileTypeFilter = [
+                new("ZS Dictionary Pack") {
+                    Patterns = ["*ZsDic.pack.zs", "*ZsDic.pack.*", "*.dic"]
+                }
+            ],
+        });
+
+        if (result.Count is not 1) {
+            return;
+        }
+
+        await using Stream input = await result[0].OpenReadAsync();
+        int size = Convert.ToInt32(input.Length);
+        byte[] data = ArrayPool<byte>.Shared.Rent(size);
+        _ = await input.ReadAsync(data);
+        Totk.Zstd.LoadDictionaries(data.AsSpan()[..size]);
+        ArrayPool<byte>.Shared.Return(data);
     }
 }

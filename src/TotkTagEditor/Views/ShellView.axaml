@@ -58,19 +58,20 @@
                         </Style>
                     </StackPanel.Styles>
 
-                    <Button Command="{Binding ShowSettingsCommand}" ToolTip.Tip="Settings | Ctrl + B">
-                        <ic:SymbolIcon FontSize="16" Symbol="Settings" />
+                    <Button Command="{OnPlatform {Binding ShowSettingsCommand}, Browser={Binding ImportZstdCommand}}"
+                            ToolTip.Tip="{OnPlatform Settings | Ctrl + B, Browser=Import zStandard Dictionaries}">
+                        <ic:SymbolIcon FontSize="16" Symbol="{OnPlatform Settings, Browser=AppsAddIn}" />
                     </Button>
 
-                    <Button Command="{Binding OpenFileCommand}" ToolTip.Tip="Open File | Ctrl + O">
+                    <Button Command="{Binding OpenFileCommand}" ToolTip.Tip="{OnPlatform Open File | Ctrl + O, Browser=Open File}">
                         <ic:SymbolIcon FontSize="16" Symbol="DocumentArrowRight" />
                     </Button>
 
-                    <Button Command="{Binding SaveCommand}" ToolTip.Tip="Save | Ctrl + S">
+                    <Button Command="{Binding SaveCommand}" ToolTip.Tip="{OnPlatform Save | Ctrl + S, Browser=Save}">
                         <ic:SymbolIcon FontSize="16" Symbol="Save" />
                     </Button>
 
-                    <Button Command="{Binding SaveAsCommand}" ToolTip.Tip="Save As | Ctrl + Shift + S">
+                    <Button Command="{Binding SaveAsCommand}" ToolTip.Tip="{OnPlatform Save As | Ctrl + S, Browser=Save As}">
                         <ic:SymbolIcon FontSize="16" Symbol="SaveArrowRight" />
                     </Button>
                 </StackPanel>

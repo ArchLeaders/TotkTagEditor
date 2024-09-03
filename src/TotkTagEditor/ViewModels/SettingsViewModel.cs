@@ -37,9 +37,8 @@ public partial class SettingsViewModel : Document
             Totk.Config.GamePath = value;
         }
         catch (Exception ex) {
-            throw new InvalidOperationException("""
-                Invalid Game Path
-                """, ex);
+            throw new InvalidOperationException(
+                "Invalid Game Path", ex);
         }
 
         Save();

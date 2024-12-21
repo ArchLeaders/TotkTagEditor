@@ -32,8 +32,8 @@ public partial class TagDatabase : ObservableObject
         using FileStream fs = File.OpenRead(path);
         int size = Convert.ToInt32(fs.Length);
         using ArraySegmentOwner<byte> buffer = ArraySegmentOwner<byte>.Allocate(size);
-        fs.Read(buffer.Segment);
-        return new(buffer.Segment);
+        fs.ReadExactly(buffer.Segment);
+        return new TagDatabase(buffer.Segment);
     }
 
     public static TagDatabase FromYaml(string yaml)

@@ -13,8 +13,8 @@ public class TagBitTableEntry
         for (int i = 0; i < entrySize; i++) {
             _flags[i] = ((current >> bitOffset) & 1) == 1;
 
-            switch (bitOffset) {
-                case 7:
+            switch (bitOffset) { 
+                case 7 when reader.Position < reader.Length:
                     bitOffset = 0;
                     current = reader.Read<byte>();
                     break;
